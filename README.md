@@ -14,4 +14,4 @@ $ git remote set-url origin git@github.com:pramendra/serverless-slack-bot-prismi
 $ git push
 ```
 
-### Move [Express server using serverless deployed on GCP using github actions CI/CD](TUTORIAL.md) Documentation
+### Move [Express server using serverless deployed on GCP using github actions CI/CD](docs/TUTORIAL.md) Documentation
