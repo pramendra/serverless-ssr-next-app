@@ -7,7 +7,6 @@ provider:
   region: ${env:GCP_REGION}
   project: ${env:GCP_PROJECT}
   credentials: ${env:CREDENTIALS_PATH}
-  environment:
 
 plugins:
   - serverless-google-cloudfunctions
