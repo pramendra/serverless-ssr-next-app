@@ -62,3 +62,19 @@ $ git push
 ```
 
 ### Move [Express server using serverless deployed on GCP using github actions CI/CD](docs/TUTORIAL.md) Documentation
+
+### configure graphql
+
+#### install dependencies
+
+```bash
+$ npm install apollo-client graphql-tag graphql apollo-link-prismic apollo-cache-inmemory --save
+```
+
+#### add graphql endpont
+
+add following in .env
+
+```
+PRISMIC_GRAPHQL=https://xxx.cdn.prismic.io/graphql
+```
