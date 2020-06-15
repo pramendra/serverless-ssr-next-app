@@ -11,6 +11,14 @@ $ git clone git@github.com:pramendra/serverless-slack-bot-prismic.git
 $ cd serverless-slack-bot-prismic
 ```
 
+### Create .env file
+
+```
+GCP_REGION=
+GCP_PROJECT=
+CREDENTIALS_PATH=~/.gcloud/keyfile.json
+```
+
 ### Change node version
 
 ```bash
