@@ -11,6 +11,12 @@ $ git clone git@github.com:pramendra/serverless-slack-bot-prismic.git
 $ cd serverless-slack-bot-prismic
 ```
 
+### Change node version
+
+```bash
+$ nvm use
+```
+
 ### Install dependencies
 
 ```bash
