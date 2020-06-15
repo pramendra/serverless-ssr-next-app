@@ -14,7 +14,7 @@ describe('GET /', () => {
 
 describe('GET /webhook', () => {
   it('responds webhook', async (done) => {
-    await request(app).get('/webhook').expect(200, 'webhook');
+    await request(app).post('/webhook').expect(500);
     done();
   });
 });
