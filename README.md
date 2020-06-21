@@ -78,3 +78,10 @@ add following in .env
 ```
 PRISMIC_GRAPHQL=https://xxx.cdn.prismic.io/graphql
 ```
+
+# with nextjs
+
+```bash
+$ npm i -D @types/react @types/webpack babel-plugin-styled-components npm-run-all pino-prett serverless ts-node
+$ npm i @google-cloud/functions-framework next next-routes react react-dom
+```
