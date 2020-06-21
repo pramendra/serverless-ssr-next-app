@@ -1,14 +1,15 @@
-import {
-  //
-  app,
-  handler,
-  server,
-} from './index';
+import { nextApp } from './server/next-app';
+import { appRoute } from './server/app-route';
 
 const { BASE_PATH = '' } = process.env;
-app.prepare().then(() => {
-  server.use(BASE_PATH, (req: any, res: any) => {
-    return handler(req, res);
-  });
+
+const express = require('express');
+const server = express();
+
+const basePathRoute = express.Router();
+basePathRoute.use(BASE_PATH, appRoute);
+
+nextApp.prepare().then(() => {
+  server.use(basePathRoute);
   server.listen(8080);
 });
