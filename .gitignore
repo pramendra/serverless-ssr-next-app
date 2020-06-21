@@ -38,4 +38,5 @@ node_modules
 .build
 TODO.md
 
-src/app/.next/
+src/app/.next
+.serverless
