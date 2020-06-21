@@ -1,74 +1,30 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import express from 'express';
-import { prismicClient } from './lib/prismic';
-const gql = require('graphql-tag');
-const routeMain = express.Router({});
+// server.js;
+const express = require('express');
+const next = require('next');
+// const routes = require('./routes');
+import routes from './routes';
+import './server';
 
-routeMain.get('/', function (req: any, res: any) {
-  res.status(200).send('Hello World!');
+const dev = process.env.NODE_ENV !== 'production';
+const { BASE_PATH = '' } = process.env;
+export const app = next({
+  //
+  dev,
+  dir: 'src/app',
+
+  conf: {
+    assetPrefix: BASE_PATH,
+  },
 });
+export const handler = routes.getRequestHandler(app);
+export const server = express();
 
-routeMain.post('/webhook', (req: any, res: any) => {
-  const {
-    PRISMIC_WEBHOOK_SECRET = '',
-    PRISMIC_GRAPHQL = '',
-    PRISMIC_ACCESS_TOKEN = '',
-  } = process.env;
-  const { secret = '' } = res.body || {};
-  if (secret && secret !== PRISMIC_WEBHOOK_SECRET) {
-    res.status(403).send('permission denied');
-    return;
-  }
+// server.get('*', (req: any, res: any) => handler(req, res));
 
-  const client = prismicClient(PRISMIC_GRAPHQL, PRISMIC_ACCESS_TOKEN);
-  client
-    .query({
-      query: gql`
-        {
-          allNewss {
-            edges {
-              node {
-                _meta {
-                  id
-                  uid
-                  lastPublicationDate
-                }
-                hero
-                title
-                summary
-                references {
-                  title1
-                  src {
-                    _linkType
-                    __typename
-                    ... on _ExternalLink {
-                      url
-                    }
-                  }
-                }
-                category
-                tags {
-                  tag
-                }
-                rank
-              }
-            }
-          }
-        }
-      `,
-    })
-    .then((response: any) => {
-      console.log(response);
-    })
-    .catch((error: any) => {
-      console.error(error);
-    });
-
-  res.status(200).send('webhook');
-});
-
-export const http = routeMain;
-
-exports.event = (event: any, callback: any) => {
-  callback();
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const http = (req: any, res: any): any => {
+  console.log(`File: ${req.originalUrl}`);
+  return app.prepare().then(() => {
+    server(req, res);
+  });
 };
