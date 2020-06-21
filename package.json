@@ -29,7 +29,6 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "dev": "NODE_ENV=dev nodemon",
-    "coppa:watch": "dotenv -e .env -- coppa start -e .build/src/index.js",
     "local:build": "rm -rf .build && npm run next:build && ./node_modules/.bin/serverless invoke local -f first",
     "local:run": "NODE_ENV=production functions-framework --target=http",
     "sls:deploy": "rm -rf .build && npm run next:build && ./node_modules/.bin/serverless deploy"
@@ -46,7 +45,6 @@
     "@typescript-eslint/eslint-plugin": "^3.2.0",
     "@typescript-eslint/parser": "^3.2.0",
     "babel-plugin-styled-components": "^1.10.7",
-    "coppa": "^1.2.1",
     "dotenv-cli": "^3.1.0",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
