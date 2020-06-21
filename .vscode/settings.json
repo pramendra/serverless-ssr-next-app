@@ -1,0 +1,21 @@
+{
+  "eslint.enable": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  //*.tsx
+  "[typescriptreact]": {
+    "editor.formatOnSave": true
+  },
+  "javascript.validate.enable": false,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "node_modules/": true,
+    "build/": true,
+    ".nyc_output": true,
+    "npm": true
+  }
+}
