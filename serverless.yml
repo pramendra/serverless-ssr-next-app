@@ -1,4 +1,4 @@
-service: serverless-slack-bot-prismic
+service: serverless-ssr-next-app
 
 provider:
   name: google
