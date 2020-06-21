@@ -3,6 +3,9 @@ const dev = process.env.NODE_ENV !== 'production';
 const { BASE_PATH = '' } = process.env;
 module.exports = {
   assetPrefix: BASE_PATH,
+  publicRuntimeConfig: {
+    assetPrefix: BASE_PATH,
+  },
   distDir: dev ? '.next' : '../../.build/src/app/.next',
   webpack(config, { defaultLoaders }) {
     config.resolve.extensions.push('.ts', '.tsx');
