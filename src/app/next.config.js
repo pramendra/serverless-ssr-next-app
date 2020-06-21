@@ -1,11 +1,9 @@
-const path = require('path');
+const nextConfig = require('./next.config.prod');
 const dev = process.env.NODE_ENV !== 'production';
-const { BASE_PATH = '' } = process.env;
+
+const path = require('path');
 module.exports = {
-  assetPrefix: BASE_PATH,
-  publicRuntimeConfig: {
-    assetPrefix: BASE_PATH,
-  },
+  ...nextConfig,
   distDir: dev ? '.next' : '../../.build/src/app/.next',
   webpack(config, { defaultLoaders }) {
     config.resolve.extensions.push('.ts', '.tsx');

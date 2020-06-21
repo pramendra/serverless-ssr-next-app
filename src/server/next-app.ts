@@ -1,5 +1,5 @@
 const next = require('next');
-const nextConfig = require('./../app/next.config');
+const nextConfig = require('../app/next.config.prod');
 
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({
@@ -11,10 +11,4 @@ const nextApp = next({
   },
 });
 
-// const handler = routes.getRequestHandler(nextApp);
-
-export {
-  //
-  nextApp,
-  // handler,
-};
+export { nextApp };
