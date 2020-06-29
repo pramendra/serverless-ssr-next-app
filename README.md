@@ -105,3 +105,10 @@ $ npm run local:run
 ```bash
 $ npm run deploy
 ```
+
+### setup styled component
+
+```
+$ npm i styled-components
+$ npm i -D babel-plugin-styled-components @types/styled-components
+```
