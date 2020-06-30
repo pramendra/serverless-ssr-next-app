@@ -1,11 +1,17 @@
+import express, {
+  //
+  Express,
+  Request,
+  Response,
+} from 'express';
+
 import { nextApp } from './server/next-app';
 import { appRoute } from './server/app-route';
 
-const express = require('express');
-const server = express();
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const http = (req: any, res: any): any => {
-  console.log(`File: ${req.originalUrl}`);
+const server: Express = express();
+
+export const http = (req: Request, res: Response): any => {
+  // console.log(`File: ${req.originalUrl}`);
   return nextApp.prepare().then(() => {
     server.use(appRoute)(req, res);
   });

@@ -113,6 +113,4 @@ $ npm i styled-components
 $ npm i -D babel-plugin-styled-components @types/styled-components
 ```
 
-➜ npm install @chakra-ui/core @emotion/core @emotion/styled emotion-theming
-
-npm install eslint-plugin-react --save-dev
+npm i @chakra-ui/core @emotion/core @emotion/styled emotion-theming

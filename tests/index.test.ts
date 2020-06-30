@@ -1,20 +1,26 @@
-// const request = require('supertest');
-// const index = require('../src/index');
+const supertest = require('supertest');
+import { http } from '../src/index';
+
 // const express = require('express');
-
 // const app = express();
-// app.use('/', index.http);
+// app.use('/', http);
 
-// describe('GET /', () => {
-//   it('responds Hello World!', async (done) => {
-//     await request(app).get('/').expect(200, 'Hello World!');
-//     done();
-//   });
-// });
+const request = supertest(http);
+
+describe('GET /', () => {
+  // beforeEach(() => {
+  //   jest.setTimeout(10000);
+  // });
+  it('responds Hello World!', async (done) => {
+    const response = await request.get('/test');
+    expect(response.statusCode).toBe(200);
+    done();
+  });
+});
 
 // describe('GET /webhook', () => {
 //   it('responds webhook', async (done) => {
-//     await request(app).post('/webhook').expect(500);
+//     await supertest(app).post('/webhook').expect(500);
 //     done();
 //   });
 // });

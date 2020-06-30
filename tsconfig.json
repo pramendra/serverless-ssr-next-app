@@ -9,10 +9,11 @@
     "strictNullChecks": true,
     "sourceMap": true,
     "esModuleInterop": true,
-    "types": ["node"],
-    "skipLibCheck": true
+    "types": ["node", "jest"],
+    "skipLibCheck": true,
+    "jsx": "react"
   },
   "typeRoots": ["node_modules/@types", "./types"],
-  "include": ["./src/**/*", "./tests/**/*", "./types/**/*.ts"],
+  "include": ["./src/**/*", "./tests/**/*.test.ts", "./types/**/*.ts"],
   "exclude": ["node_modules", "./.serverless/**/*", "./.build/**/*"]
 }
