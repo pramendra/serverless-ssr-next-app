@@ -1,22 +1,23 @@
-import styled from 'styled-components';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import BasicLayout from '../layout/basic';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Heading, Stack } from '@chakra-ui/core';
 
-import { assetPrefix } from './../../lib/public-config';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Title = styled.h1`
-  color: red;
-`;
+import Container from '../components/Container';
+import LinkButton from '../components/LinkButton';
+import ThemeSwitch from '../components/ThemeSwitch';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const Home = () => {
+const IndexPage: React.FC = () => {
   return (
-    <BasicLayout>
-      <p>hello</p>
-      <Title>World</Title>
-      <img src={`${assetPrefix}/static/loading.gif`} alt="loading..." />
-    </BasicLayout>
+    <Container w="100%" height="100vh" justifyContent="center">
+      <Heading size="2xl">NextJS + Chakra UI + TypeScript</Heading>
+      <Stack isInline mt={8}>
+        <LinkButton href="http://chakra-ui.com">Chakra UI</LinkButton>
+        <LinkButton href="https://nextjs.org/" variant="outline">
+          Next JS
+        </LinkButton>
+      </Stack>
+      <ThemeSwitch />
+    </Container>
   );
 };
 
-export default Home;
+export default IndexPage;

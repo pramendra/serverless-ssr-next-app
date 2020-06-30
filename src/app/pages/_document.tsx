@@ -1,32 +1,30 @@
-import Document from 'next/document';
-import { ServerStyleSheet } from 'styled-components';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import NextDocument, {
+  //
+  Html,
+  Head,
+  Main,
+  NextScript,
+} from 'next/document';
 
-export default class MyDocument extends Document {
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+// import { InitializeColorMode } from '@chakra-ui/color-mode';
+
+export default class Document extends NextDocument {
   static async getInitialProps(ctx: any) {
-    const sheet = new ServerStyleSheet();
-    const originalRenderPage = ctx.renderPage;
+    const initialProps = await NextDocument.getInitialProps(ctx);
+    return { ...initialProps };
+  }
 
-    try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          enhanceApp: (App: any) => (props: any) =>
-            sheet.collectStyles(<App {...props} />),
-        });
-
-      const initialProps = await Document.getInitialProps(ctx);
-      return {
-        ...initialProps,
-        styles: (
-          <>
-            {initialProps.styles}
-            {sheet.getStyleElement()}
-          </>
-        ),
-      };
-    } finally {
-      sheet.seal();
-    }
+  render() {
+    return (
+      <Html>
+        <Head />
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }

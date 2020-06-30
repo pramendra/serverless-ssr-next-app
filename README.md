@@ -112,3 +112,5 @@ $ npm run deploy
 $ npm i styled-components
 $ npm i -D babel-plugin-styled-components @types/styled-components
 ```
+
+➜ npm install @chakra-ui/core @emotion/core @emotion/styled emotion-theming
