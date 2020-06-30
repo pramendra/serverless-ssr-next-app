@@ -1,22 +1,21 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import React from 'react';
+
 import NextDocument, {
   //
   Html,
   Head,
   Main,
   NextScript,
+  DocumentContext,
 } from 'next/document';
 
-// import { InitializeColorMode } from '@chakra-ui/color-mode';
-
 export default class Document extends NextDocument {
-  static async getInitialProps(ctx: any) {
+  static async getInitialProps(ctx: DocumentContext): Promise<any> {
     const initialProps = await NextDocument.getInitialProps(ctx);
     return { ...initialProps };
   }
 
-  render() {
+  render(): JSX.Element {
     return (
       <Html>
         <Head />

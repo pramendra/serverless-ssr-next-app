@@ -1,5 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default () => {
+import React from 'react';
+import { NextPage } from 'next';
+
+const Page: NextPage = () => {
   const env = process.env.NODE_ENV;
-  return `Hello World! We're in ${env}!`;
+
+  return <p>Hello World! We\'re in ${env}!</p>;
 };
+
+export default Page;

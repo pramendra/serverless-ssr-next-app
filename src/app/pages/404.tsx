@@ -1,2 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default () => '404 page';
+import React from 'react';
+import { NextPage } from 'next';
+
+const Page: NextPage = () => <p>404</p>;
+
+export default Page;

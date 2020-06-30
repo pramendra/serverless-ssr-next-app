@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import React from 'react';
 import {
   //
   Flex,
@@ -6,7 +6,7 @@ import {
   useColorMode,
 } from '@chakra-ui/core';
 
-const Container: React.FC<Props> = (props) => {
+const Container: React.FC<FlexProps> = (props) => {
   const { colorMode } = useColorMode();
 
   return (
@@ -20,9 +20,6 @@ const Container: React.FC<Props> = (props) => {
     />
   );
 };
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Props extends FlexProps {}
 
 const containerTheme = {
   bg: {

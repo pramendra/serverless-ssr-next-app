@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import React from 'react';
 import { Heading, Stack } from '@chakra-ui/core';
 
 import Container from '../components/Container';

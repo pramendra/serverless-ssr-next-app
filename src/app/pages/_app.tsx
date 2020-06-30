@@ -1,17 +1,16 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import React from 'react';
+import NextApp, { AppProps as NextAppProps } from 'next/app';
 import {
   //
   ColorModeProvider,
   CSSReset,
   ThemeProvider,
 } from '@chakra-ui/core';
-import NextApp from 'next/app';
 
 import theme from '../theme';
 
-export default class App extends NextApp {
-  render() {
+export default class App extends NextApp<NextAppProps> {
+  render(): JSX.Element {
     const { Component } = this.props;
     return (
       <ThemeProvider theme={theme}>

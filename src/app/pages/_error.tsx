@@ -1,9 +1,11 @@
-import { NextPageContext } from 'next';
+import React from 'react';
+import { NextPageContext, NextPage } from 'next';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const Error = ({ statusCode }: any) => {
-  return statusCode;
-};
+interface Props {
+  statusCode?: number;
+}
+
+const Error: NextPage<Props> = ({ statusCode }: Props) => <p>{statusCode}</p>;
 
 Error.getInitialProps = ({ res, err }: NextPageContext) => {
   const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
