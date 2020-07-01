@@ -23,7 +23,7 @@
     "build:remove": "rm -rf .build",
     "copy:next.config": "cpx \"src/app/next.config.prod.js\" ./.build/src/app/",
     "copy:static": "cpx \"static/**/*.*\" ./.build/static",
-    "deploy": "run-s build:remove next:build copy:static copy:next.config sls:deploy",
+    "deploy": "NODE_ENV=production dotenv -e .env -- run-s build:remove next:build copy:static copy:next.config sls:deploy",
     "dev": "NODE_ENV=dev nodemon",
     "format": "prettier --write src",
     "lint:fix": "eslint --fix src/**/*",
