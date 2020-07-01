@@ -7,9 +7,8 @@
         "displayName": true,
         "preprocess": false
       }
-    ]
+    ],
+    "emotion"
   ],
-  "presets": [
-    "next/babel"
-  ]
+  "presets": ["next/babel"]
 }
