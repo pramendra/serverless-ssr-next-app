@@ -7,15 +7,16 @@ import {
   ThemeProvider,
 } from '@chakra-ui/core';
 
-import theme from '../theme';
+import { defaultTheme, defaultGetGlobalConfig } from '../ui/theme';
 
 export default class App extends NextApp<NextAppProps> {
   render(): JSX.Element {
     const { Component } = this.props;
+
     return (
-      <ThemeProvider theme={theme}>
-        <ColorModeProvider value="light">
-          <CSSReset />
+      <ThemeProvider theme={defaultTheme}>
+        <CSSReset config={defaultGetGlobalConfig} />
+        <ColorModeProvider>
           <Component />
         </ColorModeProvider>
       </ThemeProvider>
