@@ -110,7 +110,10 @@ $ npm run deploy
 
 ```
 $ npm i styled-components
+$ npm i @chakra-ui/core @emotion/core @emotion/styled emotion-theming
 $ npm i -D babel-plugin-styled-components @types/styled-components
 ```
 
-npm i @chakra-ui/core @emotion/core @emotion/styled emotion-theming
+#### configure
+
+`_app.tsx and _document.tsx`
