@@ -8,7 +8,8 @@
         "preprocess": false
       }
     ],
-    "emotion"
+    "emotion",
+    ["graphql-tag"]
   ],
   "presets": ["next/babel"]
 }

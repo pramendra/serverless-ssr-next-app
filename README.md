@@ -117,3 +117,23 @@ $ npm i -D babel-plugin-styled-components @types/styled-components
 #### configure
 
 `_app.tsx and _document.tsx`
+
+### setup apollo client
+
+```bash
+$ npm i @apollo/react-hooks apollo-cache-inmemory apollo-client apollo-link-http graphql graphql-tag apollo-link-prismic
+$ npm i -D babel-plugin-graphql-tag @types/apollo-link-prismic
+```
+
+#### append .babelrc
+
+```
+["graphql-tag"]
+```
+
+Update
+
+```
+- tsconfig.json
+- _app.tsx
+```
