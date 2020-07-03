@@ -6,7 +6,8 @@ import { systemFontStack, systemMonoFontStack } from './fonts';
 
 export interface Theme extends ITheme {
   colors: ITheme['colors'] & {
-    indigo: ColorHues;
+    // indigo?: ColorHues;
+    gray: ColorHues;
   };
 }
 
