@@ -1,26 +1,28 @@
-const supertest = require('supertest');
-import { http } from '../src/index';
+import * as SuperTest from 'supertest';
+import {
+  //
+  Express,
+} from 'express';
 
-// const express = require('express');
-// const app = express();
-// app.use('/', http);
+import { proxyServer } from './../src/server/proxy-server';
+import { appRoute } from './../src/server/app-route';
 
-const request = supertest(http);
+describe('expects http status 204', () => {
+  let server: Express;
+  let agent: SuperTest.SuperTest<SuperTest.Test>;
+  // let request: SuperTest.SuperTest<SuperTest.Test>;
 
-describe('GET /', () => {
-  // beforeEach(() => {
-  //   jest.setTimeout(10000);
-  // });
-  it('responds Hello World!', async (done) => {
-    const response = await request.get('/test');
-    expect(response.statusCode).toBe(200);
+  beforeEach(async () => {
+    server = await proxyServer();
+    server.use(appRoute);
+    agent = SuperTest.agent(server);
+    // request = SuperTest(server);
+  });
+
+  test('/test', async (done) => {
+    // jest.useFakeTimers();
+    const response: SuperTest.Response = await agent.get('/test');
+    expect(response.status).toBe(200);
     done();
   });
 });
-
-// describe('GET /webhook', () => {
-//   it('responds webhook', async (done) => {
-//     await supertest(app).post('/webhook').expect(500);
-//     done();
-//   });
-// });

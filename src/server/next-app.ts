@@ -1,6 +1,11 @@
-const next = require('next');
-const nextConfig = require('../app/next.config.prod');
-const dev = process.env.NODE_ENV !== 'production';
+import next from 'next';
+import nextConfig from '../app/next.config.prod';
+const {
+  //
+  NODE_ENV,
+} = process.env;
+
+const dev = NODE_ENV !== 'production';
 const nextApp = next({
   //
   dev,

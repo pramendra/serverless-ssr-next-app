@@ -1,17 +1,14 @@
-import express, {
+import {
   //
   Express,
   Request,
   Response,
 } from 'express';
 
-import { nextApp } from './server/next-app';
 import { appRoute } from './server/app-route';
+import { proxyServer } from './server/proxy-server';
 
-export const http = (req: Request, res: Response): any => {
-  // console.log(`File: ${req.originalUrl}`);
-  return nextApp.prepare().then(() => {
-    const server: Express = express();
-    server.use(appRoute)(req, res);
-  });
+export const http = async (req: Request, res: Response): Promise<Express> => {
+  const server = await proxyServer();
+  return server.use(appRoute)(req, res);
 };

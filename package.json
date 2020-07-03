@@ -27,8 +27,8 @@
     "dev": "NODE_ENV=dev nodemon",
     "format": "prettier --write src",
     "lint:fix": "eslint --fix src/**/*",
-    "lint": "eslint src/**/*",
-    "local:build": "NODE_ENV=production dotenv -e .env -- run-s build:remove next:build copy:static copy:next.config sls:local-build",
+    "lint": "eslint src/**/*  tests/**/*",
+    "local:build": "NODE_ENV=local dotenv -e .env -- run-s build:remove next:build copy:static copy:next.config sls:local-build",
     "local:run": "NODE_ENV=production functions-framework --target=http",
     "next:build": "next build src/app",
     "next:dev": "NODE_ENV=dev dotenv -e .env -- node --inspect=5858 -r ts-node/register src/server.ts | ./node_modules/.bin/pino-pretty",
@@ -36,7 +36,7 @@
     "sls:deploy": "./node_modules/.bin/serverless deploy",
     "sls:local-build": "./node_modules/.bin/serverless invoke local -f first",
     "test:watch": "NODE_ENV=test dotenv -e .env -- jest --watch --verbose false",
-    "test": "NODE_ENV=test dotenv -e .env -- jest --coverage"
+    "test": "NODE_ENV=production dotenv -e .env -- jest --forceExit"
   },
   "author": "Pramendra Gupta <pramendra@gmail.com>",
   "license": "MIT",
@@ -48,6 +48,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/serverless": "^1.72.2",
     "@types/styled-components": "^5.1.0",
+    "@types/supertest": "^2.0.10",
     "@types/webpack": "^4.41.17",
     "@typescript-eslint/eslint-plugin": "^3.2.0",
     "@typescript-eslint/parser": "^3.2.0",
