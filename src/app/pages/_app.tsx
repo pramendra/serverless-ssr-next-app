@@ -24,23 +24,3 @@ export default function App({ Component, pageProps }: AppProps): any {
     </ThemeProvider>
   );
 }
-
-// export default class App extends NextApp<NextAppProps> {
-
-//   render(): JSX.Element {
-//     const { Component, pageProps } = this.props;
-//     const { initialApolloState = null }: any = pageProps;
-//     const apolloClient = useApollo(initialApolloState);
-
-//     return (
-//       <ThemeProvider theme={defaultTheme}>
-//         <CSSReset config={defaultGetGlobalConfig} />
-//         <ColorModeProvider>
-//           <ApolloProvider client={apolloClient}>
-//             <Component {...pageProps} />
-//           </ApolloProvider>
-//         </ColorModeProvider>
-//       </ThemeProvider>
-//     );
-//   }
-// }

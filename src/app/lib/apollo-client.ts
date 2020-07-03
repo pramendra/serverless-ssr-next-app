@@ -9,15 +9,20 @@ const isBrowser = typeof window === 'undefined';
 
 const createApolloClient = () => {
   const { PRISMIC_GRAPHQL_URI, PRISMIC_ACCESS_TOKEN } = publicRuntimeConfig;
-  return new ApolloClient({
-    ssrMode: !isBrowser,
-    link: PrismicLink({
-      uri: PRISMIC_GRAPHQL_URI,
-      accessToken: PRISMIC_ACCESS_TOKEN,
-    }),
+  console.warn(PRISMIC_GRAPHQL_URI, PRISMIC_ACCESS_TOKEN);
+  try {
+    return new ApolloClient({
+      ssrMode: !isBrowser,
+      link: PrismicLink({
+        uri: PRISMIC_GRAPHQL_URI,
+        accessToken: PRISMIC_ACCESS_TOKEN,
+      }),
 
-    cache: new InMemoryCache(),
-  });
+      cache: new InMemoryCache(),
+    });
+  } catch (error) {
+    console.warn('error', error);
+  }
 };
 
 export const initializeApollo = (
