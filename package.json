@@ -35,8 +35,8 @@
     "next:start": "next start src/app",
     "sls:deploy": "./node_modules/.bin/serverless deploy",
     "sls:local-build": "./node_modules/.bin/serverless invoke local -f first",
-    "test:watch": "jest --watch --verbose false",
-    "test": "jest --coverage"
+    "test:watch": "NODE_ENV=test dotenv -e .env -- jest --watch --verbose false",
+    "test": "NODE_ENV=test dotenv -e .env -- jest --coverage"
   },
   "author": "Pramendra Gupta <pramendra@gmail.com>",
   "license": "MIT",
