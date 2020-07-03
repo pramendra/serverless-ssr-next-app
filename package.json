@@ -36,7 +36,7 @@
     "sls:deploy": "./node_modules/.bin/serverless deploy",
     "sls:local-build": "./node_modules/.bin/serverless invoke local -f first",
     "test:watch": "NODE_ENV=test dotenv -e .env -- jest --watch --verbose false",
-    "test": "NODE_ENV=production dotenv -e .env -- jest --forceExit"
+    "test": "NODE_ENV=test dotenv -e .env -- jest --forceExit"
   },
   "author": "Pramendra Gupta <pramendra@gmail.com>",
   "license": "MIT",
