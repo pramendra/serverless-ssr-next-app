@@ -1,11 +1,18 @@
-const dev = process.env.NODE_ENV !== 'production';
-const { BASE_PATH = '' } = process.env;
+const {
+  //
+  BASE_PATH = '',
+  PRISMIC_GRAPHQL_URI = '',
+  PRISMIC_ACCESS_TOKEN = '',
+  NODE_ENV,
+} = process.env;
+const dev = NODE_ENV !== 'production';
+
 module.exports = {
   assetPrefix: BASE_PATH,
   publicRuntimeConfig: {
     assetPrefix: BASE_PATH,
-    PRISMIC_GRAPHQL_URI: process.env.PRISMIC_GRAPHQL_URI,
-    PRISMIC_ACCESS_TOKEN: process.env.PRISMIC_ACCESS_TOKEN,
+    PRISMIC_GRAPHQL_URI,
+    PRISMIC_ACCESS_TOKEN,
   },
   dev,
   dir: 'src/app',
