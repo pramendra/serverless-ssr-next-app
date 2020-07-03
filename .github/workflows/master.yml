@@ -79,6 +79,7 @@ jobs:
           CREDENTIALS_PATH: ./keyfile.json
           GCP_PROJECT: ${{secrets.GCP_PROJECT}}
           GCP_REGION: ${{secrets.GCP_REGION}}
+          SERVICE_NAME: ${{secrets.SERVICE_NAME}}
           PRISMIC_ACCESS_TOKEN: ${{secrets.PRISMIC_ACCESS_TOKEN}}
           PRISMIC_GRAPHQL_URI: ${{secrets.PRISMIC_GRAPHQL_URI}}
           PRISMIC_WEBHOOK_SECRET: ${{secrets.PRISMIC_WEBHOOK_SECRET}}
