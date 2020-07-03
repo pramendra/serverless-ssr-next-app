@@ -4,7 +4,7 @@ import { NextPage, GetStaticProps } from 'next';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
 
 import gql from 'graphql-tag';
-import { initializeApollo } from '../lib/apollo-client';
+import { initializeApollo } from './../lib/apollo-client';
 
 export const ALL_POSTS_QUERY = gql`
   {
@@ -19,11 +19,28 @@ export const ALL_POSTS_QUERY = gql`
   }
 `;
 const TestPage: NextPage = () => {
-  const { loading, error, data, fetchMore, networkStatus } = useQuery(
-    ALL_POSTS_QUERY
-  );
-  console.warn('>>>', loading, error, data, fetchMore, networkStatus);
-  return <h1>dd</h1>;
+  const {
+    //
+    loading,
+    data,
+    // error,
+    // fetchMore,
+    // networkStatus,
+  } = useQuery(ALL_POSTS_QUERY);
+  if (loading === true) return <h1>loading</h1>;
+
+  const { allJobs } = data;
+  const { edges } = allJobs;
+
+  const listitems = edges.map((node: any) => {
+    const {
+      node: { title },
+    } = node;
+    const { text } = title[0];
+    return <li key={text}>{text}</li>;
+  });
+
+  return <ul>{listitems}</ul>;
 };
 
 type StaticPageProps = {
