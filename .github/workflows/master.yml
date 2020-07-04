@@ -4,15 +4,23 @@ on:
     branches:
       - master
       - dev
-env:
-  GCP_PROJECT: ${{secrets.GCP_PROJECT}}
-  GCP_REGION: ${{secrets.GCP_REGION}}
-  SERVICE_NAME: ${{secrets.SERVICE_NAME}}
-  PRISMIC_ACCESS_TOKEN: ${{secrets.PRISMIC_ACCESS_TOKEN}}
-  PRISMIC_GRAPHQL_URI: ${{secrets.PRISMIC_GRAPHQL_URI}}
-  PRISMIC_WEBHOOK_SECRET: ${{secrets.PRISMIC_WEBHOOK_SECRET}}
 jobs:
+  set_var:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.18.1]
+    outputs:
+      BRANCH_NAME: ${{ steps.step1.outputs.BRANCH_NAME }}
+      BASE_PATH: ${{ steps.step2.outputs.BASE_PATH }}
+    name: set app variable ${{ matrix.node-version }}
+    steps:
+      - id: step1
+        run: echo "::set-output name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
+      - id: step2
+        run: echo "::set-output name=BASE_PATH::/${{secrets.SERVICE_NAME}}-${{ steps.step1.outputs.BRANCH_NAME }}-${{secrets.SERVICE_NAME_FUNCTION}}"
   test:
+    needs: set_var
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -46,7 +54,7 @@ jobs:
         run: npm run lint
 
   deploy:
-    needs: [test]
+    needs: [set_var, test]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -73,27 +81,28 @@ jobs:
 
       - name: Installing dependencies
         run: npm install
-      - name: Extract branch name
-        shell: bash
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
       - name: Build app
         run: npm run build
         env:
-          BASE_PATH: '/${{secrets.SERVICE_NAME}}-${BRANCH_NAME}-${{secrets.SERVICE_NAME_FUNCTION}}'
-
+          BASE_PATH: /${{secrets.SERVICE_NAME}}-${{needs.set_var.outputs.BRANCH_NAME}}-${{secrets.SERVICE_NAME_FUNCTION}}
+          PRISMIC_ACCESS_TOKEN: ${{secrets.PRISMIC_ACCESS_TOKEN}}
+          PRISMIC_GRAPHQL_URI: ${{secrets.PRISMIC_GRAPHQL_URI}}
+          PRISMIC_WEBHOOK_SECRET: ${{secrets.PRISMIC_WEBHOOK_SECRET}}
       - name: Deploy function
         run: |
           echo -n ${{ secrets.GCP_SA_KEY }} | base64 --decode > $CREDENTIALS_PATH
-          npm run sls:deploy -- --stage=${BRANCH_NAME}
+          npx serverless deploy --stage=${{needs.set_var.outputs.BRANCH_NAME}}
         env:
           CREDENTIALS_PATH: ./keyfile.json
-          BASE_PATH: '/${{secrets.SERVICE_NAME}}-${BRANCH_NAME}-${{secrets.SERVICE_NAME_FUNCTION}}'
+          BASE_PATH: /${{secrets.SERVICE_NAME}}-${{needs.set_var.outputs.BRANCH_NAME}}-${{secrets.SERVICE_NAME_FUNCTION}}
+          GCP_PROJECT: ${{secrets.GCP_PROJECT}}
+          GCP_REGION: ${{secrets.GCP_REGION}}
           SERVICE_NAME: ${{secrets.SERVICE_NAME}}
           PRISMIC_ACCESS_TOKEN: ${{secrets.PRISMIC_ACCESS_TOKEN}}
           PRISMIC_GRAPHQL_URI: ${{secrets.PRISMIC_GRAPHQL_URI}}
           PRISMIC_WEBHOOK_SECRET: ${{secrets.PRISMIC_WEBHOOK_SECRET}}
   deploy_public:
-    needs: [deploy]
+    needs: [set_var, deploy]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -107,13 +116,9 @@ jobs:
           service_account_email: ${{ secrets.GCP_SA_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
-
       - name: Make function public
         run: |
-          gcloud functions add-iam-policy-binding ${{secrets.SERVICE_NAME}}-${BRANCH_NAME}-${{secrets.SERVICE_NAME_FUNCTION}} \
+          gcloud functions add-iam-policy-binding ${{secrets.SERVICE_NAME}}-${{needs.set_var.outputs.BRANCH_NAME}}-${{secrets.SERVICE_NAME_FUNCTION}} \
           --member="allUsers" \
           --role="roles/cloudfunctions.invoker" \
           --project ${{ secrets.GCP_PROJECT }} \
