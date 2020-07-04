@@ -10,12 +10,12 @@ jobs:
     name: Setup, test & lint ${{ matrix.node-version }}
     steps:
       - name: Extract pr name
-      - id: branch_name
         shell: bash
         run: echo "::set-env name=BRANCH_NAME::$(echo pr$(jq --raw-output .number "$GITHUB_EVENT_PATH"))"
       - name: print pr name
         shell: bash
-        run: echo "/${{secrets.SERVICE_NAME}}-$BRANCH_NAME-${{secrets.SERVICE_NAME_FUNCTION}}"
+        run: |
+          echo "/${{secrets.SERVICE_NAME}}-$BRANCH_NAME-${{secrets.SERVICE_NAME_FUNCTION}}"
   test1:
     needs: [test]
     runs-on: ubuntu-latest
@@ -26,4 +26,5 @@ jobs:
     steps:
       - name: print pr name
         shell: bash
-        run: echo $BRANCH_NAME
+        run: |
+          echo "/${{secrets.SERVICE_NAME}}-$BRANCH_NAME-${{secrets.SERVICE_NAME_FUNCTION}}"
