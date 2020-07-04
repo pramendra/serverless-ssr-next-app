@@ -87,6 +87,11 @@ jobs:
           npm run sls:deploy -- --stage=${BRANCH_NAME}
         env:
           CREDENTIALS_PATH: ./keyfile.json
+          BASE_PATH: '/${{secrets.SERVICE_NAME}}-${BRANCH_NAME}-${{secrets.SERVICE_NAME_FUNCTION}}'
+          SERVICE_NAME: ${{secrets.SERVICE_NAME}}
+          PRISMIC_ACCESS_TOKEN: ${{secrets.PRISMIC_ACCESS_TOKEN}}
+          PRISMIC_GRAPHQL_URI: ${{secrets.PRISMIC_GRAPHQL_URI}}
+          PRISMIC_WEBHOOK_SECRET: ${{secrets.PRISMIC_WEBHOOK_SECRET}}
 
   deploy_public:
     needs: [deploy]
