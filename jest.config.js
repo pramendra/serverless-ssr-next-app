@@ -1,7 +1,7 @@
 module.exports = {
-  preset: 'ts-jest/presets/js-with-ts',
+  displayName: 'Unit Tests',
   testEnvironment: 'node',
-  roots: ['<rootDir>/tests'],
+  roots: ['./tests'],
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
@@ -11,5 +11,6 @@ module.exports = {
   coveragePathIgnorePatterns: ['/node_modules/'],
   verbose: true,
   testURL: 'http://localhost/',
-  setupFilesAfterEnv: ['./jest.setup.js'],
+  testTimeout: 30000,
+  setupFiles: ['./jest.setup.js'],
 };

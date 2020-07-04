@@ -1,1 +1,1 @@
-jest.setTimeout(10 * 1000);
+// require('jest-fetch-mock').enableMocks();
