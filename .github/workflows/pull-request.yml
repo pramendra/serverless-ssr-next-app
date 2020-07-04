@@ -15,7 +15,7 @@ jobs:
       - id: step1
         run: echo "::set-output name=BRANCH_NAME::$(echo pr$(jq --raw-output .number "$GITHUB_EVENT_PATH"))"
       - id: step2
-        run: echo "::set-output name=BASE_PATH::/${{secrets.SERVICE_NAME}}-${{ steps.step1.outputs.BRANCH_NAME }}-${{secrets.SERVICE_NAME_FUNCTION}}"
+        run: echo "::set-output name=BASE_PATH::/-${{ steps.step1.outputs.BRANCH_NAME }}-"
   job2:
     runs-on: ubuntu-latest
     needs: set_var
