@@ -71,7 +71,11 @@ jobs:
         shell: bash
         run: |
           echo "::set-env name=BRANCH_NAME::$(echo pr$(jq --raw-output .number "$GITHUB_EVENT_PATH"))"
-          echo '/${{secrets.SERVICE_NAME}}-$BRANCH_NAME-${{secrets.SERVICE_NAME_FUNCTION}}'
+          echo $BRANCH_NAME
+          echo ${BRANCH_NAME}
+          echo '{${BRANCH_NAME}}'
+          echo '${{BRANCH_NAME}}'
+          echo "/${{secrets.SERVICE_NAME}}-$BRANCH_NAME-${{secrets.SERVICE_NAME_FUNCTION}}"
       - name: Build app
         run: npm run build
         env:
