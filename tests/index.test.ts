@@ -17,11 +17,10 @@ describe('expects http status 200', () => {
     server.use(appRoute);
     // agent = SuperTest.agent(server);
     request = supertest.agent(server);
-    jest.setTimeout(10000);
   });
 
   test('/test', async (done) => {
-    jest.useFakeTimers();
+    // jest.useFakeTimers();
     const response: supertest.Response = await request.get('/test');
     expect(response.status).toBe(200);
     done();
