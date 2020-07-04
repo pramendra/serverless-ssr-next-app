@@ -34,7 +34,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
         with:
@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Installing dependencies
-        run: npm install
+        run: npm install --prefer-offline --no-audit
 
       - name: Running tests
         run: npm run test
@@ -68,7 +68,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         env:
           cache-name: cache-node-modules
         with:
@@ -80,7 +80,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Installing dependencies
-        run: npm install
+        run: npm install --prefer-offline --no-audit
       - name: Build app
         run: npm run build
         env:
