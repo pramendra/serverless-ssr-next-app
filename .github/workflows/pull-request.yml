@@ -2,31 +2,19 @@ name: CICD on PR
 on:
   - pull_request
 jobs:
-  test:
+  job1:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.18.1]
-    name: Setup, test & lint ${{ matrix.node-version }}
+    # Map a step output to a job output
+    outputs:
+      output1: ${{ steps.step1.outputs.test }}
+      output2: ${{ steps.step2.outputs.test }}
     steps:
-      - name: Set tag var
-        id: vars
-        run: echo ::output name=BRANCH_NAME::$(echo pr$(jq --raw-output .number "$GITHUB_EVENT_PATH"))
-      - name: Test arch var
-        run: echo "Testing ${{ steps.vars.outputs.BRANCH_NAME }}"
-      - name: print pr name
-        shell: bash
-        run: |
-          echo "/${{secrets.SERVICE_NAME}}-${{ steps.vars.outputs.BRANCH_NAME }}-${{secrets.SERVICE_NAME_FUNCTION}}"
-  test1:
-    needs: [test]
+      - id: step1
+        run: echo "::set-output name=test::hello"
+      - id: step2
+        run: echo "::set-output name=test::world"
+  job2:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.18.1]
-    name: Setup, test & lint ${{ matrix.node-version }}
+    needs: job1
     steps:
-      - name: print pr name
-        shell: bash
-        run: |
-          echo "/${{secrets.SERVICE_NAME}}-${{ steps.vars.outputs.BRANCH_NAME }}-${{secrets.SERVICE_NAME_FUNCTION}}"
+      - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
