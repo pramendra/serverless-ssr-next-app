@@ -23,4 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: set_var
     steps:
-      - run: echo "${{needs.job1.outputs.BRANCH_NAME}}-${{needs.job1.outputs.BASE_PATH}}-${{needs.job1.outputs.output2}}"
+      - run: echo ${{needs.job1.outputs.BRANCH_NAME}}
+      - run: echo ${{needs.job1.outputs.BASE_PATH}}
+      - run: echo ${{needs.job1.outputs.output2}}
