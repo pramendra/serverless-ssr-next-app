@@ -16,3 +16,15 @@ jobs:
         shell: bash
         run: |
           echo "/${{secrets.SERVICE_NAME}}-$BRANCH_NAME-${{secrets.SERVICE_NAME_FUNCTION}}"
+  test1:
+    needs: [test]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.18.1]
+    name: Setup, test & lint ${{ matrix.node-version }}
+    steps:
+      - name: print pr name
+        shell: bash
+        run: |
+          echo "/${{secrets.SERVICE_NAME}}-$BRANCH_NAME-${{secrets.SERVICE_NAME_FUNCTION}}"
