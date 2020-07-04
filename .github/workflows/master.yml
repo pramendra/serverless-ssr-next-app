@@ -58,7 +58,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          fetch-depth: 1
 
       - name: Cache node modules
         uses: actions/cache@v1
@@ -74,13 +73,13 @@ jobs:
 
       - name: Installing dependencies
         run: npm install
+      - name: Extract branch name
+        shell: bash
+        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
       - name: Build app
         run: npm run build
         env:
           BASE_PATH: '/${{secrets.SERVICE_NAME}}-${BRANCH_NAME}-${{secrets.SERVICE_NAME_FUNCTION}}'
-      - name: Extract branch name
-        shell: bash
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
 
       - name: Deploy function
         run: |
