@@ -75,6 +75,8 @@ jobs:
 
       - name: Installing dependencies
         run: npm install
+      - name: Installing dependencies
+        run: npm run build
       - name: Extract branch name
         shell: bash
         run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//_/g')"
@@ -82,7 +84,7 @@ jobs:
       - name: Deploy function
         run: |
           echo -n ${{ secrets.GCP_SA_KEY }} | base64 --decode > $CREDENTIALS_PATH
-          npx serverless deploy --stage ${BRANCH_NAME}
+          npm run sls:deploy -- --stage ${BRANCH_NAME}
         env:
           CREDENTIALS_PATH: ./keyfile.json
 
