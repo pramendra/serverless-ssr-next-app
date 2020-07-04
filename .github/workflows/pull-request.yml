@@ -29,4 +29,4 @@ jobs:
       - name: print pr name
         shell: bash
         run: |
-          echo "/${{secrets.SERVICE_NAME}}-${{ jobs.test.steps.vars.outputs.BRANCH_NAME }}-${{secrets.SERVICE_NAME_FUNCTION}}"
+          echo "/${{secrets.SERVICE_NAME}}-${{ steps.vars.outputs.BRANCH_NAME }}-${{secrets.SERVICE_NAME_FUNCTION}}"
