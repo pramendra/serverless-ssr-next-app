@@ -64,7 +64,7 @@ jobs:
         run: npm run lint
 
   deploy:
-    needs: [test]
+    needs: [set_var, test]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -113,7 +113,7 @@ jobs:
           PRISMIC_GRAPHQL_URI: ${{secrets.PRISMIC_GRAPHQL_URI}}
           PRISMIC_WEBHOOK_SECRET: ${{secrets.PRISMIC_WEBHOOK_SECRET}}
   deploy_public:
-    needs: [deploy]
+    needs: [set_var, deploy]
     runs-on: ubuntu-latest
     strategy:
       matrix:
