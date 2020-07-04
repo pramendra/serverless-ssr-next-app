@@ -7,22 +7,18 @@ jobs:
     strategy:
       matrix:
         node-version: [10.18.1]
-    outputs:
+    app_var:
       BRANCH_NAME: ${{ steps.step1.outputs.BRANCH_NAME }}
       BASE_PATH: ${{ steps.step2.outputs.BASE_PATH }}
-      output2: ${{ steps.step3.outputs.test }}
-
+    name: set app variable ${{ matrix.node-version }}
     steps:
       - id: step1
         run: echo "::set-output name=BRANCH_NAME::$(echo pr$(jq --raw-output .number "$GITHUB_EVENT_PATH"))"
       - id: step2
-        run: echo "::set-output name=BASE_PATH::/${{ steps.step1.outputs.BRANCH_NAME }}"
-      - id: step3
-        run: echo "::set-output name=test-world"
+        run: echo "::set-output name=BASE_PATH::/${{secrets.SERVICE_NAME}}-${{ steps.step1.outputs.BRANCH_NAME }}-${{secrets.SERVICE_NAME_FUNCTION}}"
   job2:
     runs-on: ubuntu-latest
     needs: set_var
     steps:
-      - run: echo ${{needs.set_var.outputs.BRANCH_NAME}}
-      - run: echo ${{needs.set_var.outputs.BASE_PATH}}
-      - run: echo ${{needs.set_var.outputs.output2}}
+      - run: echo ${{needs.set_var.app_var.BRANCH_NAME}}
+      - run: echo ${{needs.set_var.app_var.BASE_PATH}}
