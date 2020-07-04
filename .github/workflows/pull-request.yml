@@ -72,7 +72,7 @@ jobs:
 
       - name: Installing dependencies
         run: npm install
-      - name: Installing dependencies
+      - name: Build app
         run: npm run build
       - name: Deploy function
         run: |

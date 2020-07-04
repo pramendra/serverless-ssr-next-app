@@ -75,7 +75,7 @@ jobs:
 
       - name: Installing dependencies
         run: npm install
-      - name: Installing dependencies
+      - name: Build app
         run: npm run build
       - name: Extract branch name
         shell: bash
@@ -84,7 +84,7 @@ jobs:
       - name: Deploy function
         run: |
           echo -n ${{ secrets.GCP_SA_KEY }} | base64 --decode > $CREDENTIALS_PATH
-          npm run sls:deploy -- --stage ${BRANCH_NAME}
+          npm run sls:deploy -- --stage=${BRANCH_NAME}
         env:
           CREDENTIALS_PATH: ./keyfile.json
 
