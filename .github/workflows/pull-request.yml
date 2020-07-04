@@ -71,7 +71,6 @@ jobs:
         shell: bash
         run: |
           echo "::set-env name=BRANCH_NAME::$(echo pr$(jq --raw-output .number "$GITHUB_EVENT_PATH"))"
-          echo $BRANCH_NAME
           echo ${BRANCH_NAME}
           echo '{${BRANCH_NAME}}'
           echo '${{BRANCH_NAME}}'
