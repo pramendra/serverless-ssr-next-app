@@ -71,7 +71,7 @@ jobs:
       - name: Build app
         run: npm run build
         env:
-          BASE_PATH: '/${{secrets.SERVICE_NAME}}-${{BRANCH_NAME}}-${{secrets.SERVICE_NAME_FUNCTION}}'
+          BASE_PATH: '/${{secrets.SERVICE_NAME}}-pr$(jq --raw-output .number "$GITHUB_EVENT_PATH")-${{secrets.SERVICE_NAME_FUNCTION}}'
           PRISMIC_ACCESS_TOKEN: ${{secrets.PRISMIC_ACCESS_TOKEN}}
           PRISMIC_GRAPHQL_URI: ${{secrets.PRISMIC_GRAPHQL_URI}}
           PRISMIC_WEBHOOK_SECRET: ${{secrets.PRISMIC_WEBHOOK_SECRET}}
@@ -81,7 +81,7 @@ jobs:
           npx serverless deploy --stage pr$(jq --raw-output .number "$GITHUB_EVENT_PATH")
         env:
           CREDENTIALS_PATH: ./keyfile.json
-          BASE_PATH: '/${{secrets.SERVICE_NAME}}-${{BRANCH_NAME}}-${{secrets.SERVICE_NAME_FUNCTION}}'
+          BASE_PATH: '/${{secrets.SERVICE_NAME}}-pr$(jq --raw-output .number "$GITHUB_EVENT_PATH")-${{secrets.SERVICE_NAME_FUNCTION}}'
           GCP_PROJECT: ${{secrets.GCP_PROJECT}}
           GCP_REGION: ${{secrets.GCP_REGION}}
           SERVICE_NAME: ${{secrets.SERVICE_NAME}}
