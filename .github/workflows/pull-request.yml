@@ -17,12 +17,16 @@ jobs:
       - id: step2
         run: echo "::set-output name=BASE_PATH::/${{secrets.SERVICE_NAME}}-${{ steps.step1.outputs.BRANCH_NAME }}-${{secrets.SERVICE_NAME_FUNCTION}}"
   job2:
-    runs-on: ubuntu-latest
     needs: set_var
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.18.1]
     steps:
       - run: echo ${{needs.set_var.outputs.BRANCH_NAME}}
       - run: echo ${{needs.set_var.outputs.BASE_PATH}}
   test:
+    needs: set_var
     runs-on: ubuntu-latest
     strategy:
       matrix:
