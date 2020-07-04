@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.16.2]
+        node-version: [10.18.1]
     name: Setup, test & lint ${{ matrix.node-version }}
     steps:
       - uses: actions/checkout@v2
@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.16.2]
+        node-version: [10.18.1]
     name: deploying using ${{ matrix.node-version }}
     steps:
       - uses: actions/checkout@v2
@@ -98,7 +98,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.16.2]
+        node-version: [10.18.1]
     name: make deployment public using ${{ matrix.node-version }}
     steps:
       - name: Authenticate into Google Cloud Platform
