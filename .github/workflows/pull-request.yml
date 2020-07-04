@@ -15,10 +15,117 @@ jobs:
       - id: step1
         run: echo "::set-output name=BRANCH_NAME::$(echo pr$(jq --raw-output .number "$GITHUB_EVENT_PATH"))"
       - id: step2
-        run: echo "::set-output name=BASE_PATH::/-${{ steps.step1.outputs.BRANCH_NAME }}-"
+        run: echo "::set-output name=BASE_PATH::/${{secrets.SERVICE_NAME}}-${{ steps.step1.outputs.BRANCH_NAME }}-${{secrets.SERVICE_NAME_FUNCTION}}"
   job2:
     runs-on: ubuntu-latest
     needs: set_var
     steps:
       - run: echo ${{needs.set_var.outputs.BRANCH_NAME}}
       - run: echo ${{needs.set_var.outputs.BASE_PATH}}
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.18.1]
+    name: Setup, test & lint ${{ matrix.node-version }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Installing dependencies
+        run: npm install
+
+      - name: Running tests
+        run: npm run test
+        env:
+          PRISMIC_ACCESS_TOKEN: ${{secrets.PRISMIC_ACCESS_TOKEN}}
+          PRISMIC_GRAPHQL_URI: ${{secrets.PRISMIC_GRAPHQL_URI}}
+          PRISMIC_WEBHOOK_SECRET: ${{secrets.PRISMIC_WEBHOOK_SECRET}}
+
+      - name: Running lints
+        run: npm run lint
+
+  deploy:
+    needs: [test]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.18.1]
+    name: deploying using ${{ matrix.node-version }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Installing dependencies
+        run: npm install
+      - name: Build app
+        run: npm run build
+        env:
+          BASE_PATH: ${{needs.set_var.outputs.BASE_PATH}}
+          PRISMIC_ACCESS_TOKEN: ${{secrets.PRISMIC_ACCESS_TOKEN}}
+          PRISMIC_GRAPHQL_URI: ${{secrets.PRISMIC_GRAPHQL_URI}}
+          PRISMIC_WEBHOOK_SECRET: ${{secrets.PRISMIC_WEBHOOK_SECRET}}
+      - name: Deploy function
+        run: |
+          echo -n ${{ secrets.GCP_SA_KEY }} | base64 --decode > $CREDENTIALS_PATH
+          npx serverless deploy --stage $BRANCH_NAME
+        env:
+          CREDENTIALS_PATH: ./keyfile.json
+          BASE_PATH: ${{needs.set_var.outputs.BASE_PATH}}
+          GCP_PROJECT: ${{secrets.GCP_PROJECT}}
+          GCP_REGION: ${{secrets.GCP_REGION}}
+          SERVICE_NAME: ${{secrets.SERVICE_NAME}}
+          PRISMIC_ACCESS_TOKEN: ${{secrets.PRISMIC_ACCESS_TOKEN}}
+          PRISMIC_GRAPHQL_URI: ${{secrets.PRISMIC_GRAPHQL_URI}}
+          PRISMIC_WEBHOOK_SECRET: ${{secrets.PRISMIC_WEBHOOK_SECRET}}
+  deploy_public:
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.18.1]
+    name: make deployment public using ${{ matrix.node-version }}
+    steps:
+      - name: Authenticate into Google Cloud Platform
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '276.0.0'
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Make function public
+        run: |
+          gcloud functions add-iam-policy-binding ${{needs.set_var.outputs.BASE_PATH}} \
+          --member="allUsers" \
+          --role="roles/cloudfunctions.invoker" \
+          --project ${{ secrets.GCP_PROJECT }} \
+          --region ${{ secrets.GCP_REGION }}
