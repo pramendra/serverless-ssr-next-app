@@ -96,7 +96,7 @@
     "apollo-link-http": "^1.5.17",
     "apollo-link-prismic": "^1.0.7",
     "emotion-theming": "^10.0.27",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "graphql": "^14.3.1",
     "graphql-tag": "^2.10.3",
     "next": "^9.4.4",
